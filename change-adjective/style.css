@@ -1,0 +1,50 @@
+* {
+  box-sizing: border-box;
+}
+
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 42px;
+  font-family: Georgia;
+  color: #444;
+  padding: 0.5em 1em;
+}
+
+button, input {
+  font-size: 0.8em;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  outline: none;
+  border: none;
+  font-family: Georgia;
+  color: #444;
+}
+
+.change {
+  background-color: yellow;
+  cursor: pointer;
+}
+
+.adjective {
+  padding: 0.1em 0.2em;
+  color: #444;
+}
+
+::-webkit-input-placeholder {
+  color: #EEE;
+}
+
+.add {
+  background: none;
+  border: 0.1em solid yellow;
+  cursor: pointer;
+}
+
+.type {
+  border-radius: 0;
+  border-bottom: 0.1em solid yellow;
+  width: 12em;
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>React in 7 Minutes</title>
+  <script src="http://fb.me/react-0.8.0.js"></script>
+  <script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+  <script type="text/jsx">
+    /** @jsx React.DOM */
+
+    (function() {
+
+      var people = [
+        {
+          "name": "Mark Palfreeman",
+          "avatar": "https://pbs.twimg.com/profile_images/518250146358759424/5XlsQRnb_400x400.jpeg",
+          "id": 0
+        },
+        {
+          "name": "Mike Dionne",
+          "avatar": "https://pbs.twimg.com/profile_images/463088637169508352/JbW7kyNb_400x400.jpeg",
+          "id": 1
+        },
+        {
+          "name": "Jake Chapman",
+          "avatar": "https://pbs.twimg.com/profile_images/520622453727313920/MDq8XLBQ_400x400.jpeg",
+          "id": 2
+        }
+      ];
+
+      // CARD component
+      var Card = React.createClass({
+
+        render: function() {
+          return (
+            <div className='card'>
+              <h1>{this.props.name}</h1>
+              <img src={this.props.avatar} alt={this.props.name} />
+            </div>
+          )
+        }
+      });
+
+      // APP component
+      var App = React.createClass({
+
+        render: function() {
+          return (
+
+            <div className='people'>
+              {this.props.people.map(function(person) {
+                return (
+                  <Card name={person.name} avatar={person.avatar} />
+                )
+              })}
+            </div>
+          )
+        }
+      });
+
+      React.renderComponent(<App people={people} />, document.body)
+
+    })();
+
+  </script>
+</body>
+</html>

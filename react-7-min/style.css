@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 42px;
+  font-family: Georgia;
+  color: #444;
+  padding: 0.5em 1em;
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Change Adjective</title>
+  <script src="http://fb.me/react-0.8.0.js"></script>
+  <script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+  <script type="text/jsx">
+    /** @jsx React.DOM */
+
+    (function() {
+
+      var words = [
+        'cool', 'lame', 'whatever', 'React', 'nothing', 'pointless', 'WTF', 'bitchin\''
+      ];
+
+      var loc = Math.round(Math.random() * (words.length - 1));
+
+      var App = React.createClass({
+
+        // Properties should be used for static data
+        // Use STATE for things that will change
+        getInitialState: function() {
+          return {
+            word: words[loc],
+            wordList: words
+          }
+        },
+
+
+        // function for changing adjective
+        changeAdj: function() {
+          if (loc === (words.length - 1)) {
+            loc = 0;
+          } else {
+            loc++;
+          }
+
+          this.setState({word: words[loc]});
+
+        },
+
+        // "render" function to fill in virtual DOM
+        render: function() {
+          return (
+            <main>
+              <AddWord />
+              <PageTitle adjective={this.state.word} change={this.changeAdj} />
+              // <List list={this.state.wordList}/>
+            </main>
+          )
+        }
+      });
+
+      var PageTitle = React.createClass({
+        render: function() {
+          return (
+            <div>
+              <h1>My
+                <mark className="adjective">{this.props.adjective}</mark>
+                page!
+              </h1>
+              <button onClick={this.props.change} className="change">Change</button>
+            </div>
+          )
+        }
+      });
+
+      var List = React.createClass({
+        render: function() {
+          return (
+            <ul>
+              <li>{this.props.list}</li>
+            </ul>
+          )
+        }
+      });
+
+      var AddWord = React.createClass({
+        handleClick: function() {
+
+          var addButton = document.querySelector('#addword');
+          var wordInput = document.querySelector('#newword');
+
+          if (wordInput.value) {
+            var newWord = wordInput.value;
+            words.push(newWord);
+          } else {
+            alert('Enter a word to add it!')
+          }
+
+          this.setState({
+            wordList: words
+          });
+
+          console.log(words);
+        },
+
+        render: function() {
+          return (
+            <header>
+              <input id="newword" className='type' type="text" placeholder='"ridiculous"'></input>
+              <button id="addword" className='add' onClick={this.handleClick}>Add word</button>
+            </header>
+          )
+        }
+
+      });
+
+      // properties are added to components like attributes,
+      // but they don't show up in the DOM
+      React.renderComponent(<App />, document.body)
+
+    })();
+
+  </script>
+</body>
+</html>
