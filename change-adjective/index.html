@@ -27,11 +27,10 @@
         // Use STATE for things that will change
         getInitialState: function() {
           return {
-            word: words[loc],
+            word: words[3],
             wordList: words
           }
         },
-
 
         // function for changing adjective
         changeAdj: function() {
@@ -45,46 +44,9 @@
 
         },
 
-        // "render" function to fill in virtual DOM
-        render: function() {
-          return (
-            <main>
-              <AddWord />
-              <PageTitle adjective={this.state.word} change={this.changeAdj} />
-              // <List list={this.state.wordList}/>
-            </main>
-          )
-        }
-      });
+        // Take a word from a user
+        addWord: function() {
 
-      var PageTitle = React.createClass({
-        render: function() {
-          return (
-            <div>
-              <h1>My
-                <mark className="adjective">{this.props.adjective}</mark>
-                page!
-              </h1>
-              <button onClick={this.props.change} className="change">Change</button>
-            </div>
-          )
-        }
-      });
-
-      var List = React.createClass({
-        render: function() {
-          return (
-            <ul>
-              <li>{this.props.list}</li>
-            </ul>
-          )
-        }
-      });
-
-      var AddWord = React.createClass({
-        handleClick: function() {
-
-          var addButton = document.querySelector('#addword');
           var wordInput = document.querySelector('#newword');
 
           if (wordInput.value) {
@@ -94,26 +56,79 @@
             alert('Enter a word to add it!')
           }
 
-          this.setState({
-            wordList: words
-          });
+          this.setState();
 
-          console.log(words);
+          wordInput.value = '';
+
         },
 
+
+        // "render" function to fill in virtual DOM
         render: function() {
           return (
-            <header>
-              <input id="newword" className='type' type="text" placeholder='"ridiculous"'></input>
-              <button id="addword" className='add' onClick={this.handleClick}>Add word</button>
-            </header>
+            <main>
+              <PageTitle adjective={this.state.word} change={this.changeAdj} />
+
+              <br />
+              <hr />
+              <br />
+
+              <input id="newword" className='type' type="text" placeholder='"ridiculous"' />
+              <button id="addword" className='add' onClick={this.addWord}>
+                Add word</button>
+
+
+              <h4>Available words:</h4>
+              <List list={this.state.wordList} />
+            </main>
           )
         }
 
       });
 
-      // properties are added to components like attributes,
-      // but they don't show up in the DOM
+      var PageTitle = React.createClass({
+        render: function() {
+          return (
+            <header>
+              <h1>My
+                <mark className="adjective">{this.props.adjective}</mark>
+                page!
+              </h1>
+              <button onClick={this.props.change} className="change">Change</button>
+            </header>
+          )
+        }
+      });
+
+      var List = React.createClass({
+
+        deleteWord: function(item) {
+
+          console.log('enter delete function');
+
+          this.props.list.splice(this.props.list.indexOf(item), 1);
+          this.setState();
+
+        },
+
+        render: function() {
+          var that = this;
+
+          return (
+            <ul className='word-list'>
+              {this.props.list.map(function(item) {
+                return (
+                  <li>{item}
+                    <a onClick={that.deleteWord} href='' className='delete-word' >x</a>
+                  </li>
+                )
+              })}
+            </ul>
+          )
+        }
+      });
+
+      // Render the App
       React.renderComponent(<App />, document.body)
 
     })();

@@ -41,6 +41,9 @@
             <div className='card'>
               <h1>{this.props.name}</h1>
               <img src={this.props.avatar} alt={this.props.name} />
+              <br />
+              <button onClick={this.props.onClick}>Delete person</button>
+
             </div>
           )
         }
@@ -49,13 +52,20 @@
       // APP component
       var App = React.createClass({
 
+        deletePerson: function(person) {
+          this.props.people.splice(this.props.people.indexOf(person), 1);
+          this.setState();
+        },
+
         render: function() {
+          var that = this;
+
           return (
 
             <div className='people'>
               {this.props.people.map(function(person) {
                 return (
-                  <Card name={person.name} avatar={person.avatar} />
+                  <Card onClick={that.deletePerson.bind(null, person)} name={person.name} avatar={person.avatar} />
                 )
               })}
             </div>

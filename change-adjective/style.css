@@ -13,6 +13,10 @@ body {
   padding: 0.5em 1em;
 }
 
+a {
+  text-decoration: none;
+}
+
 button, input {
   font-size: 0.8em;
   padding: 0.5em 1em;
@@ -47,4 +51,31 @@ button, input {
   border-radius: 0;
   border-bottom: 0.1em solid yellow;
   width: 12em;
+}
+
+.word-list {
+  font-size: 0.8em;
+  list-style: none;
+  text-decoration: none;
+  padding: 0;
+}
+
+.word-list li {
+  display: inline-block;
+  position: relative;
+  border: 0.1em dotted #ccc;
+  padding: 0.5em 1em;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.5em;
+}
+
+.delete-word {
+  position: absolute;
+  top: -0.6em;
+  right: -0.7em;
+  display: inline-block;
+  font-family: Arial;
+  font-size: 0.6em;
+  padding: 0 0.4em;
+  background-color: white;
 }
