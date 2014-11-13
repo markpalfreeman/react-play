@@ -27,8 +27,7 @@
         // Use STATE for things that will change
         getInitialState: function() {
           return {
-            word: words[3],
-            wordList: words
+            word: words[3]
           }
         },
 
@@ -62,6 +61,15 @@
 
         },
 
+        deleteWord: function(item) {
+
+          console.log('enter delete function');
+
+          this.props.list.splice(this.props.list.indexOf(item), 1);
+          this.setState();
+
+        },
+
 
         // "render" function to fill in virtual DOM
         render: function() {
@@ -79,7 +87,7 @@
 
 
               <h4>Available words:</h4>
-              <List list={this.state.wordList} />
+              <List list={this.props.words} delete={this.deleteWord}/>
             </main>
           )
         }
@@ -102,15 +110,6 @@
 
       var List = React.createClass({
 
-        deleteWord: function(item) {
-
-          console.log('enter delete function');
-
-          this.props.list.splice(this.props.list.indexOf(item), 1);
-          this.setState();
-
-        },
-
         render: function() {
           var that = this;
 
@@ -119,7 +118,7 @@
               {this.props.list.map(function(item) {
                 return (
                   <li>{item}
-                    <a onClick={that.deleteWord} href='' className='delete-word' >x</a>
+                    <a onClick={that.props.delete.bind(null, item)} href='' className='delete-word' >x</a>
                   </li>
                 )
               })}
@@ -129,7 +128,7 @@
       });
 
       // Render the App
-      React.renderComponent(<App />, document.body)
+      React.renderComponent(<App words={words} />, document.body)
 
     })();
 
