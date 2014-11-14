@@ -16,32 +16,36 @@
     (function() {
 
       var words = [
-        'cool', 'lame', 'whatever', 'React', 'nothing', 'pointless', 'WTF', 'bitchin\''
+        'cool', 'lame', 'whatever', 'React', 'nothing', 'pointless', 'so-so'
       ];
 
-      var loc = Math.round(Math.random() * (words.length - 1));
+      // var loc = Math.round(Math.random() * (this.state.words.length - 1));
+
+      var loc = 0;
 
       var App = React.createClass({
 
-        // Properties should be used for static data
-        // Use STATE for things that will change
         getInitialState: function() {
           return {
-            word: words[3]
+            word: "React",
+            words: words
           }
         },
 
-        // function for changing adjective
+
+        // Change the highlighted adjective
         changeAdj: function() {
-          if (loc === (words.length - 1)) {
+
+          if (loc >= (this.state.words.length - 1)) {
             loc = 0;
           } else {
             loc++;
           }
 
-          this.setState({word: words[loc]});
+          this.setState({word: this.state.words[loc]});
 
         },
+
 
         // Take a word from a user
         addWord: function() {
@@ -55,24 +59,26 @@
             alert('Enter a word to add it!')
           }
 
-          this.setState();
+          this.setState({words: this.state.words});
 
           wordInput.value = '';
 
         },
 
+
+        // Delete available words
         deleteWord: function(item) {
-
-          console.log('enter delete function');
-
-          this.props.list.splice(this.props.list.indexOf(item), 1);
-          this.setState();
+          this.state.words.splice(this.state.words.indexOf(item), 1);
+          this.setState({words: this.state.words});
 
         },
 
 
         // "render" function to fill in virtual DOM
         render: function() {
+
+          var that = this;
+
           return (
             <main>
               <PageTitle adjective={this.state.word} change={this.changeAdj} />
@@ -85,14 +91,25 @@
               <button id="addword" className='add' onClick={this.addWord}>
                 Add word</button>
 
-
               <h4>Available words:</h4>
-              <List list={this.props.words} delete={this.deleteWord}/>
+
+              <ul className='word-list'>
+                {this.state.words.map(function(item) {
+                  return (
+                    <li>{item}
+                      <a onClick={that.deleteWord.bind(null, item)} className='delete-word'>x</a>
+                    </li>
+                  )
+                })}
+              </ul>
+
             </main>
           )
         }
 
       });
+
+
 
       var PageTitle = React.createClass({
         render: function() {
@@ -108,24 +125,6 @@
         }
       });
 
-      var List = React.createClass({
-
-        render: function() {
-          var that = this;
-
-          return (
-            <ul className='word-list'>
-              {this.props.list.map(function(item) {
-                return (
-                  <li>{item}
-                    <a onClick={that.props.delete.bind(null, item)} href='' className='delete-word' >x</a>
-                  </li>
-                )
-              })}
-            </ul>
-          )
-        }
-      });
 
       // Render the App
       React.renderComponent(<App words={words} />, document.body)
