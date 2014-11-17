@@ -19,8 +19,6 @@
         'cool', 'lame', 'pointless', 'excellent', 'so-so'
       ];
 
-      // var loc = Math.round(Math.random() * (this.state.words.length - 1));
-
       var loc = -1;
 
       var App = React.createClass({
@@ -36,6 +34,7 @@
         // Change the highlighted adjective
         changeAdj: function() {
 
+          // Restart if position is at end of array
           if (loc >= (this.state.words.length - 1)) {
             loc = 0;
           } else {
@@ -61,12 +60,13 @@
 
           this.setState({words: this.state.words});
 
+          // Clear typed words after submission
           wordInput.value = '';
 
         },
 
 
-        // Delete available words
+        // Delete available words on click
         deleteWord: function(item) {
           this.state.words.splice(this.state.words.indexOf(item), 1);
           this.setState({words: this.state.words});
@@ -124,7 +124,7 @@
       });
 
 
-      // Render the App
+      // Render the App!
       React.renderComponent(<App words={words} />, document.body)
 
     })();
