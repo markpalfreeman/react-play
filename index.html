@@ -30,25 +30,19 @@
           }
         },
 
-
         // Change the highlighted adjective
         changeAdj: function() {
-
           // Restart if position is at end of array
           if (loc >= (this.state.words.length - 1)) {
             loc = 0;
           } else {
             loc++;
           }
-
           this.setState({word: this.state.words[loc]});
-
         },
-
 
         // Take a word from a user
         addWord: function() {
-
           var wordInput = document.querySelector('#newword');
 
           if (wordInput.value) {
@@ -57,28 +51,20 @@
           } else {
             alert('Enter a word to add it!')
           }
-
           this.setState({words: this.state.words});
-
           // Clear typed words after submission
           wordInput.value = '';
-
         },
-
 
         // Delete available words on click
         deleteWord: function(item) {
           this.state.words.splice(this.state.words.indexOf(item), 1);
           this.setState({words: this.state.words});
-
         },
-
 
         // "render" function to fill in virtual DOM
         render: function() {
-
           var that = this;
-
           return (
             <main>
               <PageTitle adjective={this.state.word} change={this.changeAdj} />
@@ -102,11 +88,9 @@
                   )
                 })}
               </ul>
-
             </main>
           )
         }
-
       });
 
       var PageTitle = React.createClass({

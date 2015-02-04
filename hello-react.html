@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Play</title>
+    <script src="http://fb.me/react-0.12.2.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+  </head>
+
+  <body>
+    <h3>Like Button</h3>
+    <div id="likebutton"></div>
+    <hr>
+
+    <h3>(Clickable) Avatar</h3>
+    <div id="avatar"></div>
+    <hr>
+
+    <h3>Tick-tock Counter</h3>
+    <div id="ticktock"></div>
+    <hr>
+
+    <h3>Form elements</h3>
+    <div id="forms"></div>
+
+    <script type="text/jsx">
+
+      // ---------- 'LIKE' BUTTON EXAMPLE ----------
+
+      var LikeButton = React.createClass({
+        getInitialState: function() {
+          return {liked: false};
+        },
+
+        handleClick: function(event) {
+          this.setState({liked: !this.state.liked});
+        },
+
+        render: function() {
+          var text = this.state.liked ? 'like' : 'haven\'t liked';
+          var buttonText = this.state.liked ? 'Unlike' : 'Like';
+          return (
+            <main>
+              <button onClick={this.handleClick}>{buttonText}</button>
+              <p>You <strong>{text}</strong> this.</p>
+            </main>
+          );
+        }
+      });
+
+      React.render(
+        <LikeButton />,
+        document.getElementById('likebutton')
+      );
+
+
+      // ---------- 'AVATAR' EXAMPLE ----------
+
+      var Avatar = React.createClass({
+        // owner: sets props of child components 'pic' and 'link'
+        render: function() {
+          return (
+            <ProfilePic username={this.props.username} />
+          );
+        }
+      });
+
+      var ProfilePic = React.createClass({
+        render: function() {
+          return (
+            <a href={'http://www.facebook.com/' + this.props.username}>
+              <img src={'http://graph.facebook.com/' + this.props.username + '/picture'} />
+            </a>
+          );
+        }
+      });
+
+      React.render(
+        <Avatar username="mark.palfreeman" />,
+        document.getElementById('avatar')
+      );
+
+
+      // ---------- 'TICK TOCK' MIXIN EXAMPLE ----------
+
+      // define Mixin (intended for multiple components)
+      var SetIntervalMixin = {
+        componentWillMount: function () {
+          this.intervals = [];
+        },
+        setInterval: function() {
+          this.intervals.push(setInterval.apply(null, arguments));
+        },
+        componentWillUnmount: function () {
+          this.intervals.map(clearInterval);
+        }
+      };
+
+      var TickTock = React.createClass({
+        mixins: [SetIntervalMixin],  // use the mixin
+
+        getInitialState: function () {
+          return {seconds: 0};
+        },
+        componentDidMount: function () {
+          this.setInterval(this.tick, 1000);  // call a method on the mixin
+        },
+        tick: function() {
+          this.setState({seconds: this.state.seconds + 1});
+        },
+        render: function() {
+          return (
+            <p>
+              React has been running for {this.state.seconds} seconds.
+            </p>
+          );
+        }
+      });
+
+      React.render(
+        <TickTock />,
+        document.getElementById('ticktock')
+      )
+
+
+      // ---------- 'FORM ELEMENTS WITH onCHANGE' EXAMPLE ----------
+
+      var InputBox = React.createClass({
+        getInitialState: function() {
+          return {value: this.props.value};
+        },
+        handleChange: function(event) {
+          this.setState({value: event.target.value.substr(0, 10)});
+        },
+        render: function() {
+          var value = this.state.value;
+          return (
+            <div>
+              <small>Limit: 10 characters</small><br />
+              <input type="text" value={value} onChange={this.handleChange} />
+              <p>You entered: <strong>{value}</strong></p>
+            </div>
+          );
+        }
+      });
+
+      React.render(
+        <InputBox value="Hello!" />,
+        document.getElementById('forms')
+      );
+
+
+    </script>
+  </body>
+</html>
